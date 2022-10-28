@@ -15,11 +15,9 @@ import org.json.simple.JSONArray;
 
 public class Graph {
 	public Map<Integer, Course> courseLookup;
-	public List<DirectedEdge> edges;
 	
 	public Graph() {
 		this.courseLookup = new HashMap<Integer, Course>();
-		this.edges = new ArrayList<DirectedEdge>();
 		this.load();
 	}
 	
@@ -46,10 +44,6 @@ public class Graph {
 	    		System.out.println(course);
 	    	}
 	    	
-	    	// print edges:
-	    	for (DirectedEdge edge : this.edges) {
-	    		System.out.println(edge);
-	    	}
     }
 	
 	
@@ -97,12 +91,21 @@ public class Graph {
 	
 	private void loadEdges(JSONArray edges) throws Exception {
 		for (Object edge : edges) {
-			DirectedEdge de = new DirectedEdge((JSONObject)edge);
-			Course target = this.get(de.targetId);
-			Course source = this.get(de.sourceId);
+			// convert generic data object to a JSON Object
+			JSONObject obj = (JSONObject)((JSONObject)edge).get("data");
+			
+			// get the source and target ids:
+			int targetId = ((Long)obj.get("target")).intValue();
+			int sourceId = ((Long)obj.get("source")).intValue();
+			
+			// get nodes from the Graph's dictionary:
+			Course target = this.get(targetId);
+			Course source = this.get(sourceId);
 			if (target == null || source == null) {
 				throw new Exception("Invalid edge!");
 			}
+			
+			// Add dependency to the node's adjacency list:
 			target.dependencies.add(source);
 		}
 	}
