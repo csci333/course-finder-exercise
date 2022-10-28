@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class Course { 
@@ -48,14 +49,30 @@ public class Course {
 	
 	
 	@SuppressWarnings("unchecked")
-	public JSONObject toJSON() {
-		JSONObject page = new JSONObject();
-		page.put("id", this.id);
-		page.put("title", this.title);
-		page.put("comp_sys_requirement", this.compSysRequirement);
-		page.put("info_sys_requirement", this.infoSysRequirement);
-		page.put("minor_requirement", this.minorRequirement);
-		return page;
+	public JSONObject toNodeJSON() {
+		JSONObject entry = new JSONObject();
+		JSONObject data = new JSONObject();
+		data.put("id", this.id);
+		data.put("title", this.title);
+		data.put("comp_sys_requirement", this.compSysRequirement);
+		data.put("info_sys_requirement", this.infoSysRequirement);
+		data.put("minor_requirement", this.minorRequirement);
+		entry.put("data", data);
+		return entry;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JSONArray toEdgesJSON() {
+		JSONArray edgeList = new JSONArray();
+		for (Course course : this.dependencies) {
+			JSONObject entry = new JSONObject();
+			JSONObject data = new JSONObject();
+			data.put("target", this.id);
+			data.put("source", course.id);
+			entry.put("data", data);
+			edgeList.add(entry);
+		}
+		return edgeList;
 	}
 
 }

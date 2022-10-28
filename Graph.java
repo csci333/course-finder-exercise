@@ -3,9 +3,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -17,6 +15,8 @@ public class Graph {
 	public Map<Integer, Course> courseLookup;
 	
 	public Graph() {
+		// note: using a dictionary here so that the Graph can easily access
+		// individual nodes on demand.
 		this.courseLookup = new HashMap<Integer, Course>();
 		this.load();
 	}
@@ -47,15 +47,21 @@ public class Graph {
     }
 	
 	
-	private String getFilePath() {
+	private String getInputFilePath() {
 		String dir = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         return dir + separator + "src/courses.json";
 	}
 	
+	private String getOutputFilePath() {
+		String dir = System.getProperty("user.dir");
+        String separator = System.getProperty("file.separator");
+        return dir + separator + "src/visualizer/course-graph.js";
+	}
+	
 	public void load() {
 		// loads the graph from the JSON file (if it exists):
-		String filePath = this.getFilePath();
+		String filePath = this.getInputFilePath();
 		File tempFile = new File(filePath);
 		if (!tempFile.exists()) {
 			System.out.println("Can't find courses.json file");
@@ -113,16 +119,24 @@ public class Graph {
 	
 	@SuppressWarnings("unchecked")
 	public void save() {
-		JSONArray pages = new JSONArray();
+		JSONObject object = new JSONObject();
+		JSONArray nodes = new JSONArray();
+		JSONArray edges = new JSONArray();
 		for (int key: this.courseLookup.keySet()) {
-			pages.add(this.courseLookup.get(key).toJSON());
-    	}
+			Course course = this.courseLookup.get(key);
+			nodes.add(course.toNodeJSON());
+			edges.addAll(course.toEdgesJSON());
+    		}
+		object.put("nodes", nodes);
+		object.put("edges", edges);
 		
-        try (FileWriter file = new FileWriter(this.getFilePath())) {
-            file.write(pages.toJSONString());
+        try (FileWriter file = new FileWriter(this.getOutputFilePath())) {
+            file.write("const graphData = " + object.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
         }
 	}
+	
+	
 
 }

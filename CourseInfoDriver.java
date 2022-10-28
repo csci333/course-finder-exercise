@@ -71,10 +71,12 @@ public class CourseInfoDriver {
 		System.out.println("You selected: " + courseNum); 
 	}
 
-	public static void option5(BufferedReader reader) {
-		System.out.println("\n\n5. TODO: Output the chain of prerequisites for any course as subgraph\n");
-		int courseNum = getCourseNumViaPrompt(reader);
-		System.out.println("You selected: " + courseNum); 
+	public static void option5(CourseInfoDriver searcher) {
+		System.out.println("\n\n5. TODO: Output the chain of prerequisites for any course as subgraph to course-graph.js\n");
+//		int courseNum = getCourseNumViaPrompt(searcher.reader);
+//		System.out.println("You selected: " + courseNum); 
+		
+		searcher.graph.save();
 	}
 
 	public static void option6() {
@@ -108,7 +110,7 @@ public class CourseInfoDriver {
 				} else if (num == 4) {
 					option4(searcher.reader);
 				} else if (num == 5) {
-					option5(searcher.reader);
+					option5(searcher);
 				} else if (num == 6) {
 					option6();
 				}
