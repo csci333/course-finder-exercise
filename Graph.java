@@ -3,7 +3,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONObject;
@@ -40,7 +42,10 @@ public class Graph {
 
 	public void print() {
 		// print nodes:
-	    	for (Course course : this.courseLookup.values()) {
+		List<Course> courses = new ArrayList<Course>();
+		courses.addAll(this.courseLookup.values());
+		courses.sort(null);
+	    	for (Course course : courses) {
 	    		System.out.println(course);
 	    	}
     }

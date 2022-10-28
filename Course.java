@@ -5,7 +5,7 @@ import java.util.StringJoiner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class Course extends DFSNode { 
+public class Course extends DFSNode implements Comparable<Course> { 
 
 	public int id;
 	public String title;
@@ -77,6 +77,17 @@ public class Course extends DFSNode {
 			edgeList.add(entry);
 		}
 		return edgeList;
+	}
+
+
+	@Override
+	public int compareTo(Course b) {
+		if (this.id == b.id) {
+			return 0;
+		} else if (this.id > b.id) {
+			return 1;
+		}
+		return -1;
 	}
 
 }
