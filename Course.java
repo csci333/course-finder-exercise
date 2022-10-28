@@ -5,13 +5,14 @@ import java.util.StringJoiner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class Course { 
+public class Course extends DFSNode { 
 
 	public int id;
 	public String title;
 	public boolean compSysRequirement;
 	public boolean infoSysRequirement;
 	public boolean minorRequirement;
+	
 	public List<Course> dependencies = new ArrayList<Course>();
 	
 	public String toString() {
