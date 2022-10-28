@@ -43,7 +43,6 @@ public class Graph {
 	    	for (Course course : this.courseLookup.values()) {
 	    		System.out.println(course);
 	    	}
-	    	
     }
 	
 	
@@ -59,6 +58,7 @@ public class Graph {
         return dir + separator + "src/visualizer/course-graph.js";
 	}
 	
+	// Loads each node / edge of the graph from a JSON file:
 	public void load() {
 		// loads the graph from the JSON file (if it exists):
 		String filePath = this.getInputFilePath();
@@ -117,6 +117,8 @@ public class Graph {
 	}
 	
 	
+	
+	// Writes the graph to a JavaScript file (so it can be visualized):
 	@SuppressWarnings("unchecked")
 	public void save() {
 		JSONObject object = new JSONObject();

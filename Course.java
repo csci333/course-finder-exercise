@@ -34,6 +34,7 @@ public class Course {
 	}
 	
 	
+	// converts a JSON Object (from the JSON file) into a Java Course object
 	public Course(JSONObject obj) {
 		obj = (JSONObject)obj.get("data");
 		Long id = (Long)obj.get("id");
@@ -48,6 +49,7 @@ public class Course {
 	}
 	
 	
+	// converts a Java Course object to a JSON node object (to write to a file)
 	@SuppressWarnings("unchecked")
 	public JSONObject toNodeJSON() {
 		JSONObject entry = new JSONObject();
@@ -61,6 +63,7 @@ public class Course {
 		return entry;
 	}
 	
+	// converts a Java Course object to a list of JSON edge objects (to write to a file)
 	@SuppressWarnings("unchecked")
 	public JSONArray toEdgesJSON() {
 		JSONArray edgeList = new JSONArray();
