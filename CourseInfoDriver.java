@@ -57,18 +57,22 @@ public class CourseInfoDriver {
 		graph.print();
 	}
 
-	public static void option2() {
+	public static void option2(Graph graph) {
 		System.out.println("\n\n2. TODO: Logic to print all of the courses sorted topologically\n");
+		DFS dfs = new DFS(graph);
+		dfs.printGraphTopologically();
 	}
 
 	public static void option3() {
 		System.out.println("\n\n3. TODO: Logic to print all of the courses filtered by minor, computer sys, or info sys\n");
 	}
 
-	public static void option4(BufferedReader reader) {
-		System.out.println("\n\n4. TODO: Logic to print the chain of prerequisites for any course.\n");
-		int courseNum = getCourseNumViaPrompt(reader);
+	public static void option4(CourseInfoDriver driver) {
+		int courseNum = getCourseNumViaPrompt(driver.reader);
 		System.out.println("You selected: " + courseNum); 
+		Course course = driver.graph.get(courseNum);
+		DFS dfs = new DFS(driver.graph);
+		dfs.printPrereqs(course);
 	}
 
 	public static void option5(CourseInfoDriver searcher) {
@@ -85,7 +89,9 @@ public class CourseInfoDriver {
 	}
 
 	public static void main(String[] args) {
-
+		
+		// DFSNode.Colors white = DFSNode.Colors.WHITE;
+		
 		CourseInfoDriver searcher = new CourseInfoDriver();
 		while (true) {
 			showMenu();
@@ -104,11 +110,11 @@ public class CourseInfoDriver {
 				if (num == 1) {
 					option1(searcher.graph);
 				} else if (num == 2) {
-					option2();
+					option2(searcher.graph);
 				} else if (num == 3) {
 					option3();
 				} else if (num == 4) {
-					option4(searcher.reader);
+					option4(searcher);
 				} else if (num == 5) {
 					option5(searcher);
 				} else if (num == 6) {

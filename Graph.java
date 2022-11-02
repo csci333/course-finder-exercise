@@ -30,6 +30,13 @@ public class Graph {
     		}
 	}
 	
+	public List<Course> getCourses() {
+		List<Course> courses = new ArrayList<Course>();
+		courses.addAll(this.courseLookup.values()); // order n
+		courses.sort(null);
+		return courses;
+	}
+	
 	
 	public Course get(int id) {
 		return this.courseLookup.get(id);
@@ -42,10 +49,7 @@ public class Graph {
 
 	public void print() {
 		// print nodes:
-		List<Course> courses = new ArrayList<Course>();
-		courses.addAll(this.courseLookup.values());
-		courses.sort(null);
-	    	for (Course course : courses) {
+	    	for (Course course : this.getCourses()) {
 	    		System.out.println(course);
 	    	}
     }

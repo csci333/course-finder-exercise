@@ -89,5 +89,7 @@ public class Course extends DFSNode implements Comparable<Course> {
 		}
 		return -1;
 	}
+	
+	// might consider implementing a second sorting method.
 
 }
