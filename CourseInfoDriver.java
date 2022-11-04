@@ -75,12 +75,12 @@ public class CourseInfoDriver {
 		dfs.printPrereqs(course);
 	}
 
-	public static void option5(CourseInfoDriver searcher) {
-		System.out.println("\n\n5. TODO: Output the chain of prerequisites for any course as subgraph to course-graph.js\n");
-//		int courseNum = getCourseNumViaPrompt(searcher.reader);
-//		System.out.println("You selected: " + courseNum); 
-		
-		searcher.graph.save();
+	public static void option5(CourseInfoDriver driver) {
+		int courseNum = getCourseNumViaPrompt(driver.reader);
+		System.out.println("You selected: " + courseNum); 
+		Course course = driver.graph.get(courseNum);
+		DFS dfs = new DFS(driver.graph);
+		dfs.savePrereqsToFile(course);
 	}
 
 	public static void option6() {

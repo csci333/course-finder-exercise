@@ -1,5 +1,10 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class DFS {
 	private int time = 0;
@@ -8,7 +13,6 @@ public class DFS {
 	public DFS(Graph graph) {
 		this.graph = graph;
 	}
-	
 	
 	public void printGraphTopologically() {
 		System.out.println("Print graph topologically");
@@ -57,6 +61,40 @@ public class DFS {
 		for (Course c : prereqs) {
 			System.out.println(c);
 		}
+	}
+	
+	public void savePrereqsToFile(Course course) {
+		List<Course> prereqs = new ArrayList<Course>();
+		this.dfsVisit(course, prereqs);
+		for (Course c : prereqs) {
+			System.out.println(c);
+		}
+		this.save(prereqs);
+	}
+	
+	private String getOutputFilePath() {
+		String dir = System.getProperty("user.dir");
+        String separator = System.getProperty("file.separator");
+        return dir + separator + "src/visualizer/course-graph.js";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void save(List<Course> courseChain) {
+		JSONObject object = new JSONObject();
+		JSONArray nodes = new JSONArray();
+		JSONArray edges = new JSONArray();
+		for (Course course : courseChain) {
+			nodes.add(course.toNodeJSON());
+			edges.addAll(course.toEdgesJSON());
+    		}
+		object.put("nodes", nodes);
+		object.put("edges", edges);
+		
+        try (FileWriter file = new FileWriter(this.getOutputFilePath())) {
+            file.write("const graphData = " + object.toJSONString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	
